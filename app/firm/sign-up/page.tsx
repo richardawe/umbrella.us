@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/marketing/Header";
 import { Footer } from "@/components/marketing/Footer";
@@ -47,9 +48,9 @@ export default function FirmSignUpPage() {
 
             <p className="mt-6 text-center text-sm text-ink-soft">
               Already have an account?{" "}
-              <a href="/sign-in" className="font-medium text-ink underline underline-offset-4">
+              <Link href="/sign-in" className="font-medium text-ink underline underline-offset-4">
                 Log in
-              </a>
+              </Link>
             </p>
           </div>
         </Container>

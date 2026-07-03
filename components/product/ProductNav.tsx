@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ArcCanopy } from "@/components/marketing/ArcCanopy";
 import { useDemoStore } from "@/lib/demo-store";
 
@@ -14,6 +14,7 @@ const LINKS = [
 
 export function ProductNav() {
   const pathname = usePathname();
+  const router = useRouter();
   const { resetDemo } = useDemoStore();
 
   return (
@@ -52,7 +53,7 @@ export function ProductNav() {
             onClick={() => {
               if (confirm("Reset all demo matters back to the starting sample data?")) {
                 resetDemo();
-                window.location.href = "/dashboard";
+                router.push("/dashboard");
               }
             }}
             className="text-sm font-medium text-ink-soft transition-colors hover:text-ink"

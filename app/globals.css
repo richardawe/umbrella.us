@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+/*
+  Umbrella design tokens.
+  Palette theme: "clearing after the storm" — deep ink-navy grounds the
+  legal/procedural parts of the product, warm marigold stands for shelter
+  and the moment a family's path becomes clear, clay is a quiet secondary
+  warmth used sparingly. Deliberately not the cream+terracotta template.
+*/
+:root {
+  --color-ink: #17232e;
+  --color-ink-soft: #3d4f5e;
+  --color-paper: #f7f2e7;
+  --color-paper-dim: #efe8d8;
+  --color-cloud: #eaeef0;
+  --color-marigold: #e2a33b;
+  --color-marigold-deep: #b97d1f;
+  --color-clay: #b85c38;
+  --color-line: #ded3ba;
+  --color-line-dark: #2b3a48;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-paper: var(--color-paper);
+  --color-paper-dim: var(--color-paper-dim);
+  --color-cloud: var(--color-cloud);
+  --color-marigold: var(--color-marigold);
+  --color-marigold-deep: var(--color-marigold-deep);
+  --color-clay: var(--color-clay);
+  --color-line: var(--color-line);
+  --color-line-dark: var(--color-line-dark);
+
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--color-marigold);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

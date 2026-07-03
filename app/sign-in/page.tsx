@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/marketing/Header";
 import { Footer } from "@/components/marketing/Footer";
@@ -46,9 +47,9 @@ export default function SignInPage() {
 
             <p className="mt-6 text-center text-sm text-ink-soft">
               New to Umbrella?{" "}
-              <a href="/firm/sign-up" className="font-medium text-ink underline underline-offset-4">
+              <Link href="/firm/sign-up" className="font-medium text-ink underline underline-offset-4">
                 Sign up
-              </a>
+              </Link>
             </p>
           </div>
         </Container>

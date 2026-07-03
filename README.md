@@ -13,8 +13,12 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000. `npm run build` produces the static export in
-`out/` (see below); `npm run lint` runs ESLint.
+Because the site deploys to a GitHub Pages **project subpath** (see
+below), `basePath` is set in `next.config.ts` — the dev server serves
+everything under that same subpath. Open
+**http://localhost:3000/umbrella.us/**, not the bare root. `npm run
+build` produces the static export in `out/` (see below); `npm run lint`
+runs ESLint.
 
 ## Static export & deployment
 
@@ -22,24 +26,31 @@ Umbrella ships as a fully static site — no server runtime, no API routes,
 no ISR. This is a firm architectural constraint (see `init.md` §6), not a
 default:
 
-- `next.config.ts` sets `output: "export"` and `trailingSlash: true`.
+- `next.config.ts` sets `output: "export"`, `trailingSlash: true`, and
+  `basePath`/`assetPrefix` of `/umbrella.us`.
 - `npm run build` writes static HTML/CSS/JS to `out/`.
 - `.github/workflows/deploy.yml` builds on every push to `main` and
   publishes `out/` to GitHub Pages via the official Pages Actions
   (`actions/upload-pages-artifact` + `actions/deploy-pages`).
-- `public/CNAME` is set to `umbrella.us`, on the assumption this deploys
-  to a **custom domain** (root path, no `basePath`) rather than a GitHub
-  Pages project subpath — the repo is named `umbrella.us`, which is the
-  strong signal for that assumption. **If this repo is actually meant to
-  serve from `<org>.github.io/umbrella.us/` instead, `next.config.ts`
-  needs a `basePath`/`assetPrefix` added and `public/CNAME` removed** —
-  confirm the intended domain/Pages settings before relying on this as-is.
+- The live site is confirmed to be
+  **https://richardawe.github.io/umbrella.us/** — a GitHub Pages
+  **project subpath**, not a custom domain. `basePath`/`assetPrefix` are
+  set to match. There is **no** `public/CNAME` file — don't add one
+  unless this repo is actually pointed at a custom domain in Settings →
+  Pages, in which case `basePath`/`assetPrefix` would need to come back
+  out instead.
+- Every internal link/navigation in the app goes through `next/link` or
+  `useRouter()` (never a raw `<a href="/...">` or `window.location`),
+  because only Next's own router rewrites hrefs with `basePath`
+  automatically — a raw absolute path silently bypasses it and 404s
+  under the subpath. Keep it that way when adding new internal links.
 - In the repo's Settings → Pages, source should be set to **GitHub
   Actions** (not "Deploy from a branch") for the workflow to take effect.
 
 After any deploy, verify the live Pages URL loads correctly, including
-asset paths — a static-export + basePath mismatch is a common silent
-failure mode.
+asset paths — a static-export + basePath mismatch (unstyled page, missing
+CSS/JS) is exactly the failure this config guards against, and it's easy
+to reintroduce by adding a raw internal link that skips `next/link`.
 
 ## What's real vs. mocked (read this before assuming a feature works)
 
